@@ -8,25 +8,22 @@ def access_protected_test(instance):
 class MyClass(ProtectedClass):
     _acl = [
         {
-            "filter": lambda caller, attribute, attribute_name, action: True,
+            "filter": lambda attribute, attribute_name, action: True,
             "targets": {"function": [access_protected_test]},
-            "action": "read",
             "allow": True,
         },
         {
-            "filter": lambda caller, attribute, attribute_name, action: attribute_name.startswith(
+            "filter": lambda attribute, attribute_name, action: attribute_name.startswith(
                 "_"
             ),
             "targets": {},
-            "action": "read",
             "allow": False,
         },
         {
-            "filter": lambda caller, attribute, attribute_name, action: not attribute_name.startswith(
+            "filter": lambda attribute, attribute_name, action: not attribute_name.startswith(
                 "_"
             ),
             "targets": {},
-            "action": "read",
             "allow": True,
         },
     ]

@@ -14,7 +14,7 @@ class ProtectedClass(object):
             if all(
                 caller_info[key] in entry["targets"][key]
                 for key in entry["targets"].keys()
-            ) and entry["filter"](caller_info, attribute, attribute_name, action):
+            ) and entry["filter"](attribute, attribute_name, action):
                 return entry["allow"]
         return False
 
@@ -33,4 +33,11 @@ class ProtectedClass(object):
         return None
 
     def __setattr__(self, name: str, value: Any):
-        return super().__setattr__(name, value)
+        caller_frame = inspect.currentframe().f_back
+        caller_info = get_caller(caller_frame)
+
+        if caller_info["instance"] == self:
+            super().__setattr__(name, value)
+
+        if self._validate_acl(caller_info, None, name, "read"):
+            super().__setattr__(name, value)
