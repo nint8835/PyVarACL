@@ -1,9 +1,9 @@
-from typing import Any
-from types import FrameType
-from dataclasses import dataclass
 import inspect
+from dataclasses import dataclass
+from types import FrameType
+from typing import Any
 
-from .utils import get_frame_function, get_caller
+from .utils import get_caller, get_frame_function
 
 
 class ProtectedClass(object):
@@ -39,5 +39,5 @@ class ProtectedClass(object):
         if caller_info["instance"] == self:
             super().__setattr__(name, value)
 
-        if self._validate_acl(caller_info, None, name, "read"):
+        if self._validate_acl(caller_info, None, name, "write"):
             super().__setattr__(name, value)

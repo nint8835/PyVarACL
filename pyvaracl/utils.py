@@ -1,7 +1,7 @@
 import gc
 import inspect
 from types import FrameType
-from typing import Any, Callable, Optional, Dict
+from typing import Any, Callable, Dict, Optional
 
 
 def get_frame_function(frame: FrameType) -> Optional[Callable[..., Any]]:
@@ -22,4 +22,3 @@ def get_caller(frame: FrameType) -> Dict[str, Any]:
         "module": inspect.getmodule(function),
         "instance": instance,
     }
-
